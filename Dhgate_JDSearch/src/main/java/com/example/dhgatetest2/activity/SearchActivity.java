@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.dhgatetest2.R;
 import com.example.dhgatetest2.base.SearchListener;
@@ -18,11 +17,18 @@ import com.example.dhgatetest2.fragment.HistoryFragment;
 import com.example.dhgatetest2.fragment.SearchFragment;
 import com.example.dhgatetest2.util.HistoryProvider;
 import com.example.dhgatetest2.util.ThreadUtils;
-import com.example.dhgatetest2.util.ToastUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * @AUTHER:       李青峰
+ * @EMAIL:        1021690791@qq.com
+ * @PHONE:        18045142956
+ * @DATE:         2017/3/22 22:21
+ * @DESC:         搜索的主界面
+ * @VERSION:      V1.0
+ */
 public class SearchActivity extends AppCompatActivity {
     private static final String TAG = "SearchActivity";
     public static final String SEARCH_LISTENER_CLASS = "SearchListenerClass";
@@ -40,13 +46,14 @@ public class SearchActivity extends AppCompatActivity {
         initListener();
     }
 
-
+    //初始化View
     private void initUi() {
         setContentView(R.layout.activity_search);
         setSupportActionBar((Toolbar) findViewById(R.id.toolBar));
         searchView = (SearchView) findViewById(R.id.searchView);
     }
 
+    //初始化数据
     private void initData() {
         Intent intent = getIntent();
         int defaultCacheSize = 20;
@@ -66,11 +73,12 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
+    //初始化监听器
     private void initListener() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(SearchActivity.this, "搜索：" + query, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SearchActivity.this, "搜索：" + query, Toast.LENGTH_SHORT).show();
                 HistoryProvider.getInstance(SearchActivity.this).add(query);
                 if (searchListener != null) {
                     searchListener.click(query);
@@ -91,23 +99,15 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * 左上方点击返回
-     *
-     * @param view
-     */
+    //返回按钮事件
     public void back(View view) {
         finish();
     }
 
-    /**
-     * 右上方搜索点击
-     *
-     * @param view
-     */
+    //搜索按钮事件
     public void search(View view) {
         String value = searchView.getQuery().toString();
-        ToastUtils.showToast(this, "搜索:" + value);
+//        ToastUtils.showToast(this, "搜索:" + value);
         HistoryProvider.getInstance(this).add(value);
 
         if (searchListener != null) {
@@ -115,10 +115,7 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-
-    /**
-     * 延时执行任务
-     */
+    //执行延时任务
     private void delayedTask(final String newText) {
         if (timer == null) {
             startTask(newText);
@@ -131,11 +128,7 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * 任务
-     *
-     * @param newText
-     */
+    //延时任务
     private void startTask(final String newText) {
         timer = new Timer("delayedTask");
         Log.d(TAG, "delayedTask: 开始延时任务");
@@ -153,19 +146,14 @@ public class SearchActivity extends AppCompatActivity {
         }, 500);
     }
 
-    /**
-     * 显示历史搜索界面
-     */
+    //切换搜索历史界面
     private void showHistoryFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl, new HistoryFragment());
         transaction.commit();
     }
 
-    /***
-     * 显示搜索界面
-     * @param newText
-     */
+    //切换搜索详情界面
     private void showSearchFragment(String newText) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         SearchFragment searchFragment = new SearchFragment();

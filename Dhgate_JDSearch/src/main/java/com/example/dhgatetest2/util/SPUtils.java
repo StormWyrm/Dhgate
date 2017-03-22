@@ -6,7 +6,14 @@ import android.content.SharedPreferences;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
-
+/**
+ * @AUTHER:       李青峰
+ * @EMAIL:        1021690791@qq.com
+ * @PHONE:        18045142956
+ * @DATE:         2017/3/22 22:24
+ * @DESC:         SharePrence的工具类
+ * @VERSION:      V1.0
+ */
 public class SPUtils {
     public SPUtils() {
         /* cannot be instantiated */

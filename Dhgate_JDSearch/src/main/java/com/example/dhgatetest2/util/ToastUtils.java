@@ -4,7 +4,12 @@ import android.content.Context;
 import android.widget.Toast;
 
 /**
- * Created by liqingfeng on 2017/3/22.
+ * @AUTHER:       李青峰
+ * @EMAIL:        1021690791@qq.com
+ * @PHONE:        18045142956
+ * @DATE:         2017/3/22 22:24
+ * @DESC:         Toast的工具类
+ * @VERSION:      V1.0
  */
 
 public class ToastUtils {

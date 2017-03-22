@@ -4,20 +4,23 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dhgatetest2.R;
 import com.example.dhgatetest2.base.BaseFragment;
 import com.example.dhgatetest2.base.BaseHolder;
 import com.example.dhgatetest2.base.MyBaseAdapter;
-import com.example.dhgatetest2.util.ToastUtils;
 
 import java.util.List;
 
-/**
- * Created by liqingfeng on 2017/3/21.
- */
 
+/**
+ * @AUTHER:       李青峰
+ * @EMAIL:        1021690791@qq.com
+ * @PHONE:        18045142956
+ * @DATE:         2017/3/22 22:22
+ * @DESC:         搜索历史Fragment
+ * @VERSION:      V1.0
+ */
 public class HistoryFragment extends BaseFragment {
     private List<String> datas;
     private MyBaseAdapter<String> mAdapter;
@@ -28,9 +31,7 @@ public class HistoryFragment extends BaseFragment {
         showData();
     }
 
-    /***
-     * 显示搜索历史
-     */
+    //显示搜索历史数据
     private void showData() {
         if (datas != null && datas.size() != 0) {
             mTextView.setVisibility(View.GONE);
@@ -53,7 +54,7 @@ public class HistoryFragment extends BaseFragment {
                             textView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    ToastUtils.showToast(mActivity, "搜索：" + item);
+//                                    ToastUtils.showToast(mActivity, "搜索：" + item);
                                     if (searchListener!= null){
                                         searchListener.click(item);
                                     }
@@ -77,10 +78,7 @@ public class HistoryFragment extends BaseFragment {
         }
     }
 
-
-    /***
-     * 显示是否删除对话框
-     */
+    //删除搜索历史的对话框
     private void showDeleteDialog(final String value) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setTitle("确定要删除该搜索历史?");
@@ -108,9 +106,7 @@ public class HistoryFragment extends BaseFragment {
         builder.show();
     }
 
-    /**
-     * 向ListView中添加头布局和尾
-     */
+    //在ListView中添加头尾布局
     private void addFootAndHeadView() {
         View headerView = View.inflate(mActivity, R.layout.layout_header, null);
         mListView.addHeaderView(headerView);

@@ -4,7 +4,12 @@ import android.content.Context;
 import android.view.View;
 
 /**
- * Created by 10216 on 2016/6/10.
+ * @AUTHER:       李青峰
+ * @EMAIL:        1021690791@qq.com
+ * @PHONE:        18045142956
+ * @DATE:         2017/3/22 22:16
+ * @DESC:         自定义Holder
+ * @VERSION:      V1.0
  */
 public abstract class BaseHolder<T> {
     private View mConvertView;

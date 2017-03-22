@@ -4,9 +4,13 @@ import android.os.Handler;
 import android.os.Looper;
 
 /**
- * Created by liqingfeng on 2017/3/22.
+ * @AUTHER:       李青峰
+ * @EMAIL:        1021690791@qq.com
+ * @PHONE:        18045142956
+ * @DATE:         2017/3/22 22:23
+ * @DESC:         操作线程的工具类
+ * @VERSION:      V1.0
  */
-
 public class ThreadUtils {
     private static Handler handler = new Handler(Looper.getMainLooper());
 

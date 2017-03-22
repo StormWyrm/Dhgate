@@ -15,15 +15,20 @@ import com.example.dhgatetest2.activity.SearchActivity;
 import com.example.dhgatetest2.util.HistoryProvider;
 
 /**
- * Created by liqingfeng on 2017/3/21.
+ * @AUTHER:       李青峰
+ * @EMAIL:        1021690791@qq.com
+ * @PHONE:        18045142956
+ * @DATE:         2017/3/22 22:15
+ * @DESC:         Fragment的基类
+ * @VERSION:      V1.0
  */
-
 public class BaseFragment extends Fragment {
-    protected SearchActivity mActivity;
-    protected SearchListener searchListener;
     protected ListView mListView;
     protected TextView mTextView;
+
     protected HistoryProvider historyProvider;
+    protected SearchActivity mActivity;
+    protected SearchListener searchListener;
 
     @Override
     public void onAttach(Context context) {

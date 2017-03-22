@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
+        intent.putExtra(SearchActivity.SEARCH_LISTENER_CLASS,"com.example.dhgatetest2.base.MySearchListener");
+        intent.putExtra(SearchActivity.DEFAULT_CACHE_SIZE,10);
         startActivity(intent);
 
     }
