@@ -35,6 +35,12 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
         return position;
     }
 
+    public void deleteData(String value){
+        if(list.contains(value)){
+            list.remove(value);
+        }
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         BaseHolder holder = null;

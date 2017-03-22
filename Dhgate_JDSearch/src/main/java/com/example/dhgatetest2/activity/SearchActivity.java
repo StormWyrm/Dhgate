@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,16 +15,23 @@ import com.example.dhgatetest2.R;
 import com.example.dhgatetest2.fragment.HistoryFragment;
 import com.example.dhgatetest2.fragment.SearchFragment;
 import com.example.dhgatetest2.util.HistoryProvider;
+import com.example.dhgatetest2.util.ThreadUtils;
+import com.example.dhgatetest2.util.ToastUtils;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SearchActivity extends AppCompatActivity {
+    private static final String TAG = "SearchActivity";
     private SearchView searchView;
-    private boolean isHistoryPage = true;
+    private Timer timer;
+    private HistoryProvider historyProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUi();
-        initData("");
+        showHistoryFragment();
         initListener();
     }
 
@@ -32,45 +40,27 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         setSupportActionBar((Toolbar) findViewById(R.id.toolBar));
         searchView = (SearchView) findViewById(R.id.searchView);
-
     }
 
-    /***
-     * 搜索和历史Fragment的切换
-     */
-    private void initData(String newText) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (isHistoryPage) {
-            transaction.replace(R.id.fl, new HistoryFragment());
-        } else {
-            SearchFragment searchFragment = new SearchFragment();
-            Bundle args = new Bundle();
-            args.putString("newText", newText);
-            searchFragment.setArguments(args);
-            transaction.replace(R.id.fl, searchFragment);
-        }
-        transaction.commit();
-    }
 
     private void initListener() {
-        final HistoryProvider historyProvider = new HistoryProvider(this);
+        historyProvider = new HistoryProvider(this);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(SearchActivity.this, query, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this, "搜索：" + query, Toast.LENGTH_SHORT).show();
                 historyProvider.add(query);
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                Toast.makeText(SearchActivity.this, newText, Toast.LENGTH_SHORT).show();
+            public boolean onQueryTextChange(final String newText) {
                 if (TextUtils.isEmpty(newText)) {
-                    isHistoryPage = true;
+                    Log.d(TAG, "onQueryTextChange: 显示历史界面");
+                    showHistoryFragment();
                 } else {
-                    isHistoryPage = false;
+                    delayedTask(newText);
                 }
-                initData(newText);
                 return false;
             }
         });
@@ -91,8 +81,70 @@ public class SearchActivity extends AppCompatActivity {
      * @param view
      */
     public void search(View view) {
-        Toast.makeText(this, "搜索", Toast.LENGTH_SHORT).show();
+        String value = searchView.getQuery().toString();
+        ToastUtils.showToast(this, "搜索:" + value);
+        historyProvider.add(value);
     }
 
+
+    /**
+     * 延时执行任务
+     */
+    private void delayedTask(final String newText) {
+        if (timer == null) {
+            startTask(newText);
+        } else {
+            timer.cancel();
+            timer = null;
+            Log.d(TAG, "delayedTask: 取消延时任务");
+            startTask(newText);
+        }
+
+    }
+
+    /**
+     * 延时任务
+     * @param newText
+     */
+    private void startTask(final String newText) {
+        timer = new Timer("delayedTask");
+        Log.d(TAG, "delayedTask: 开始延时任务");
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ThreadUtils.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(TAG, "run: 5秒后开始执行任务");
+                        showSearchFragment(newText);
+                    }
+                });
+            }
+        }, 500);
+    }
+
+    /**
+     * 显示历史搜索界面
+     */
+    private void showHistoryFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl, new HistoryFragment());
+        transaction.commit();
+    }
+
+    /***
+     * 显示搜索界面
+     * @param newText
+     */
+    private void showSearchFragment(String newText) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        SearchFragment searchFragment = new SearchFragment();
+        Bundle args = new Bundle();
+        args.putString("newText", newText);
+        searchFragment.setArguments(args);
+        transaction.replace(R.id.fl, searchFragment);
+        transaction.commit();
+
+    }
 
 }
