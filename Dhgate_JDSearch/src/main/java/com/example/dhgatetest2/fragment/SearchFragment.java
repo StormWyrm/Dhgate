@@ -45,17 +45,23 @@ public class SearchFragment extends BaseFragment {
         ThreadUtils.runOnThread(new Runnable() {
             @Override
             public void run() {
-                mData = new ArrayList<>();
-                mData.clear();
-                for (int i = 0; i < 6; i++) {
-                    mData.add(newText + i);
-                }
-                ThreadUtils.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showData();
+//                mData = new ArrayList<>();
+//                mData.clear();
+//                for (int i = 0; i < 6; i++) {
+//                     mData.add(newText + i);
+//                }
+//
+                if(searchListener != null){
+                    if(searchListener.isSupportSearch()){
+                        mData = searchListener.search(newText);
+                        ThreadUtils.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showData();
+                            }
+                        });
                     }
-                });
+                }
             }
         });
 
@@ -84,6 +90,10 @@ public class SearchFragment extends BaseFragment {
                             public void onClick(View v) {
                                 ToastUtils.showToast(mActivity, "搜索：" + item);
                                 historyProvider.add(item);
+
+                                if (searchListener!= null){
+                                    searchListener.click(item);
+                                }
                             }
                         });
 

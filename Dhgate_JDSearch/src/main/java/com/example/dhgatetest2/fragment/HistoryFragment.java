@@ -35,7 +35,7 @@ public class HistoryFragment extends BaseFragment {
         if (datas != null && datas.size() != 0) {
             mTextView.setVisibility(View.GONE);
             mListView.setVisibility(View.VISIBLE);
-
+            addFootAndHeadView();
             mAdapter = new MyBaseAdapter<String>(datas) {
                 @Override
                 public BaseHolder<String> getBaseHolder() {
@@ -53,7 +53,10 @@ public class HistoryFragment extends BaseFragment {
                             textView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    ToastUtils.showToast(mActivity,"搜索："+item);
+                                    ToastUtils.showToast(mActivity, "搜索：" + item);
+                                    if (searchListener!= null){
+                                        searchListener.click(item);
+                                    }
                                 }
                             });
                             textView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -74,6 +77,7 @@ public class HistoryFragment extends BaseFragment {
         }
     }
 
+
     /***
      * 显示是否删除对话框
      */
@@ -85,7 +89,13 @@ public class HistoryFragment extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 historyProvider.delete(value);
                 mAdapter.deleteData(value);
-                mAdapter.notifyDataSetChanged();
+                if (mAdapter.getCount() == 0) {
+                    mTextView.setVisibility(View.VISIBLE);
+                    mListView.setVisibility(View.GONE);
+                } else {
+                    mAdapter.notifyDataSetChanged();
+                }
+
                 dialog.dismiss();
             }
         });
@@ -98,4 +108,23 @@ public class HistoryFragment extends BaseFragment {
         builder.show();
     }
 
+    /**
+     * 向ListView中添加头布局和尾
+     */
+    private void addFootAndHeadView() {
+        View headerView = View.inflate(mActivity, R.layout.layout_header, null);
+        mListView.addHeaderView(headerView);
+
+        View footerView = View.inflate(mActivity, R.layout.layout_footer, null);
+        footerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                historyProvider.clear();
+                datas.clear();
+                mTextView.setVisibility(View.VISIBLE);
+                mListView.setVisibility(View.GONE);
+            }
+        });
+        mListView.addFooterView(footerView);
+    }
 }

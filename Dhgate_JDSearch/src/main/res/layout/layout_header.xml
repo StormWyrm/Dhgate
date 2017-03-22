@@ -5,12 +5,12 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
         android:padding="8dp"
-        android:text="呵呵哒"
-        android:textSize="18sp"
-        android:background="@drawable/selector_listview"
-        />
+        android:text="搜索历史"
+        android:textColor="@color/colorPrimary" />
+
 </LinearLayout>

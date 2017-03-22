@@ -20,6 +20,7 @@ import com.example.dhgatetest2.util.HistoryProvider;
 
 public class BaseFragment extends Fragment {
     protected SearchActivity mActivity;
+    protected SearchListener searchListener;
     protected ListView mListView;
     protected TextView mTextView;
     protected HistoryProvider historyProvider;
@@ -28,7 +29,8 @@ public class BaseFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (SearchActivity) context;
-        historyProvider = new HistoryProvider(mActivity);
+        searchListener = mActivity.searchListener;
+        historyProvider = HistoryProvider.getInstance(mActivity);
     }
 
     @Nullable

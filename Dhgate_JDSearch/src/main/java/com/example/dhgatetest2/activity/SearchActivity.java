@@ -1,6 +1,7 @@
 package com.example.dhgatetest2.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.dhgatetest2.R;
+import com.example.dhgatetest2.base.SearchListener;
 import com.example.dhgatetest2.fragment.HistoryFragment;
 import com.example.dhgatetest2.fragment.SearchFragment;
 import com.example.dhgatetest2.util.HistoryProvider;
@@ -23,15 +25,18 @@ import java.util.TimerTask;
 
 public class SearchActivity extends AppCompatActivity {
     private static final String TAG = "SearchActivity";
+    public static final String SEARCH_LISTENER_CLASS = "SearchListenerClass";
+    public static final String DEFAULT_CACHE_SIZE = "DefaultCacheSize";
+
     private SearchView searchView;
     private Timer timer;
-    private HistoryProvider historyProvider;
+    public SearchListener searchListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUi();
-        showHistoryFragment();
+        initData();
         initListener();
     }
 
@@ -42,14 +47,34 @@ public class SearchActivity extends AppCompatActivity {
         searchView = (SearchView) findViewById(R.id.searchView);
     }
 
+    private void initData() {
+        Intent intent = getIntent();
+        int defaultCacheSize = 20;
+        if (intent != null) {
+            String className = intent.getStringExtra(SEARCH_LISTENER_CLASS);
+            try {
+                Class<SearchListener> clazz = (Class<SearchListener>) Class.forName(className);
+                searchListener = clazz.newInstance();
+                defaultCacheSize = intent.getIntExtra(DEFAULT_CACHE_SIZE, 20);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        HistoryProvider.getInstance(this).initDefaultCacheSize(defaultCacheSize);
+        showHistoryFragment();
+    }
+
 
     private void initListener() {
-        historyProvider = new HistoryProvider(this);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Toast.makeText(SearchActivity.this, "搜索：" + query, Toast.LENGTH_SHORT).show();
-                historyProvider.add(query);
+                HistoryProvider.getInstance(SearchActivity.this).add(query);
+                if (searchListener != null) {
+                    searchListener.click(query);
+                }
                 return false;
             }
 
@@ -83,7 +108,11 @@ public class SearchActivity extends AppCompatActivity {
     public void search(View view) {
         String value = searchView.getQuery().toString();
         ToastUtils.showToast(this, "搜索:" + value);
-        historyProvider.add(value);
+        HistoryProvider.getInstance(this).add(value);
+
+        if (searchListener != null) {
+            searchListener.click(value);
+        }
     }
 
 
@@ -103,7 +132,8 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     /**
-     * 延时任务
+     * 任务
+     *
      * @param newText
      */
     private void startTask(final String newText) {

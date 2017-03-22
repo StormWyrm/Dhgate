@@ -20,20 +20,19 @@ import java.util.List;
  */
 public class HistoryProvider {
     public static final String JSON_HISTORY = "json_history";
+    private static HistoryProvider historyProvider;
 
     private LinkedList<String> mDatas;
     private Context mContext;
     private Gson gson;
+    private int defaultCacheSize = 20;
 
-    public HistoryProvider(Context context) {
+    private HistoryProvider(Context context, int defaultCacheSize) {
         this.mDatas = new LinkedList<>();
         this.mContext = context.getApplicationContext();
         gson = new Gson();
-        init();
-    }
 
-
-    private void init() {
+        //初始化 mDatas
         String json = (String) SPUtils.get(mContext, JSON_HISTORY, "");
         List<String> list = gson.fromJson(json, new TypeToken<List<String>>() {
         }.getType());
@@ -42,16 +41,52 @@ public class HistoryProvider {
                 mDatas.add(st);
             }
         }
+
     }
 
-    public void add(String value) {
-        if (mDatas.contains(value)) {
-            mDatas.remove(value);
+    public static HistoryProvider getInstance(Context context) {
+        if (historyProvider == null) {
+            synchronized (HistoryProvider.class) {
+                if (historyProvider == null) {
+                    historyProvider = new HistoryProvider(context, 0);
+                }
+            }
         }
-        mDatas.addFirst(value);
+        return historyProvider;
+    }
+
+
+    public void initDefaultCacheSize(int defaultCacheSize) {
+        this.defaultCacheSize = defaultCacheSize;
+    }
+
+    /**
+     * 添加一条搜索历史
+     *
+     * @param value
+     */
+    public void add(String value) {
+        if (mDatas.size() < defaultCacheSize) {
+            if (mDatas.contains(value)) {
+                mDatas.remove(value);
+            }
+            mDatas.addFirst(value);
+        } else {
+            if (mDatas.contains(value)) {
+                mDatas.remove(value);
+            } else {
+                mDatas.removeLast();
+            }
+            mDatas.addFirst(value);
+        }
         commitLocal();
     }
 
+    /**
+     * 删除一条搜索历史
+     *
+     * @param value
+     */
     public void delete(String value) {
         if (mDatas.contains(value)) {
             mDatas.remove(value);
@@ -60,11 +95,19 @@ public class HistoryProvider {
     }
 
 
+    /**
+     * 清空搜索历史
+     */
     public void clear() {
         mDatas.clear();
         commitLocal();
     }
 
+    /**
+     * 后去所有搜索历史
+     *
+     * @return
+     */
     public List<String> getAll() {
         List<String> list = new ArrayList<>();
         String json = (String) SPUtils.get(mContext, JSON_HISTORY, "");
@@ -75,6 +118,9 @@ public class HistoryProvider {
         return list;
     }
 
+    /**
+     * 更新本地数据
+     */
     private void commitLocal() {
         String json = gson.toJson(mDatas, new TypeToken<List<String>>() {
         }.getType());
