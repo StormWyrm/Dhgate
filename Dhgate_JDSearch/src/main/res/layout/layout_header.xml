@@ -11,6 +11,6 @@
         android:focusable="false"
         android:padding="8dp"
         android:text="搜索历史"
-        android:textColor="@color/colorPrimary" />
+        android:textColor="@android:color/black" />
 
 </LinearLayout>

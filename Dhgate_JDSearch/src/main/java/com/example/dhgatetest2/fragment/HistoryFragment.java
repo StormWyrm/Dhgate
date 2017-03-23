@@ -57,6 +57,9 @@ public class HistoryFragment extends BaseFragment {
 //                                    ToastUtils.showToast(mActivity, "搜索：" + item);
                                     if (searchListener!= null){
                                         searchListener.click(item);
+                                        historyProvider.add(item);
+                                        mAdapter.addData(item);
+                                        mAdapter.notifyDataSetChanged();
                                     }
                                 }
                             });

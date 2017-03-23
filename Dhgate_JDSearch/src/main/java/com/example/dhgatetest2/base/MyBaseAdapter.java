@@ -1,5 +1,6 @@
 package com.example.dhgatetest2.base;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -7,15 +8,16 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 /**
- * @AUTHER:       李青峰
- * @EMAIL:        1021690791@qq.com
- * @PHONE:        18045142956
- * @DATE:         2017/3/22 22:17
- * @DESC:         Adapter的基类
- * @VERSION:      V1.0
+ * @AUTHER: 李青峰
+ * @EMAIL: 1021690791@qq.com
+ * @PHONE: 18045142956
+ * @DATE: 2017/3/22 22:17
+ * @DESC: Adapter的基类
+ * @VERSION: V1.0
  */
 public abstract class MyBaseAdapter<T> extends BaseAdapter {
     private List<T> list;
+    private BaseHolder holder;
 
     public MyBaseAdapter(List<T> list) {
         this.list = list;
@@ -40,15 +42,23 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
         return position;
     }
 
-    public void deleteData(String value){
-        if(list.contains(value)){
+    public void deleteData(T value) {
+        if (list.contains(value)) {
             list.remove(value);
         }
     }
 
+    public void addData(T value) {
+        if (list.contains(value)) {
+            list.remove(value);
+            list.add(0, value);
+        }
+    }
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        BaseHolder holder = null;
+
         if (convertView == null) {
             holder = getBaseHolder();
             convertView = holder.getConvertView();
@@ -56,7 +66,7 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
             holder = (BaseHolder) convertView.getTag();
         }
         T item = getItem(position);
-        holder.refreshView(position,convertView,item);
+        holder.refreshView(position, convertView, item);
         return convertView;
     }
 
