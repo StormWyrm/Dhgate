@@ -1,9 +1,8 @@
-package com.example.dhgatetest2.base;
+package com.example.dhgatetest2.ui;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
  * @DESC: Adapter的基类
  * @VERSION: V1.0
  */
-public abstract class MyBaseAdapter<T> extends BaseAdapter {
+public abstract class MyBaseAdapter<T> extends android.widget.BaseAdapter {
     private List<T> list;
     private BaseHolder holder;
 

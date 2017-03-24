@@ -10,7 +10,8 @@
         android:clickable="false"
         android:focusable="false"
         android:padding="8dp"
-        android:text="搜索历史"
+        android:textSize="@dimen/font_normal"
+        android:text="@string/search_history_head_text"
         android:textColor="@android:color/black" />
 
 </LinearLayout>

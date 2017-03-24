@@ -1,16 +1,14 @@
-package com.example.dhgatetest2.fragment;
+package com.example.dhgatetest2.search;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.dhgatetest2.R;
-import com.example.dhgatetest2.base.BaseFragment;
-import com.example.dhgatetest2.base.BaseHolder;
-import com.example.dhgatetest2.base.MyBaseAdapter;
-import com.example.dhgatetest2.util.ThreadUtils;
+import com.example.dhgatetest2.ui.BaseFragment;
+import com.example.dhgatetest2.ui.BaseHolder;
+import com.example.dhgatetest2.ui.MyBaseAdapter;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ import java.util.List;
 public class SearchFragment extends BaseFragment {
     private List<String> mData;
     private MyBaseAdapter<String> mAdapter;
-    private BaseHolder<String> holder;
+
 
     @Override
     protected void initData() {

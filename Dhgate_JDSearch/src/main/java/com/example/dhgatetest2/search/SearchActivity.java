@@ -1,24 +1,18 @@
-package com.example.dhgatetest2.activity;
+package com.example.dhgatetest2.search;
 
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.MessageQueue;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 
 import com.example.dhgatetest2.R;
-import com.example.dhgatetest2.base.SearchListener;
-import com.example.dhgatetest2.fragment.HistoryFragment;
-import com.example.dhgatetest2.fragment.SearchFragment;
-import com.example.dhgatetest2.util.HistoryProvider;
-import com.example.dhgatetest2.util.MySearchView;
-import com.example.dhgatetest2.util.ThreadUtils;
+import com.example.dhgatetest2.framework.SearchListener;
 import com.example.dhgatetest2.util.ToastUtils;
 
 import java.util.Timer;
@@ -43,7 +37,6 @@ public class SearchActivity extends AppCompatActivity {
     public SearchListener searchListener;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,30 +49,29 @@ public class SearchActivity extends AppCompatActivity {
     private void initUi() {
         setContentView(R.layout.activity_search);
         searchView = (MySearchView) findViewById(R.id.searchView);
-
     }
 
     //初始化数据
     private void initData() {
         Intent intent = getIntent();
-        int defaultCacheSize = 20;
+
         if (intent != null) {
-            String className = intent.getStringExtra(SEARCH_LISTENER_CLASS);
             try {
+                String className = intent.getStringExtra(SEARCH_LISTENER_CLASS);
                 Class<SearchListener> clazz = (Class<SearchListener>) Class.forName(className);
                 searchListener = clazz.newInstance();
-                defaultCacheSize = intent.getIntExtra(DEFAULT_CACHE_SIZE, 20);
+                int defaultCacheSize = intent.getIntExtra(DEFAULT_CACHE_SIZE, 20);
+                HistoryProvider.getInstance(this).initDefaultCacheSize(defaultCacheSize);
             } catch (Exception e) {
                 e.printStackTrace();
+                throw new RuntimeException("传递的SearchListener异常");
             }
+        } else {
+            throw new RuntimeException("没有传递SearchListener");
         }
-
-        HistoryProvider.getInstance(this).initDefaultCacheSize(defaultCacheSize);
+        openSoftKeybroad();//开启软键盘
         showHistoryFragment();
-
-
     }
-
 
     //初始化监听器
     private void initListener() {
@@ -99,10 +91,10 @@ public class SearchActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(newText)) {
                     Log.d(TAG, "onQueryTextChange: 显示历史界面");
                     showHistoryFragment();
-                } else {
-                    Log.d(TAG, "onQueryTextChange: 改变到" + newText);
-                    delayedTask(newText);
                 }
+                Log.d(TAG, "onQueryTextChange: 改变到" + newText);
+                delayedTask(newText);
+
 
             }
         });
@@ -129,7 +121,6 @@ public class SearchActivity extends AppCompatActivity {
 
     //执行延时任务
     private void delayedTask(final String newText) {
-
         if (timer == null) {
             startTask(newText);
         } else {
@@ -152,6 +143,12 @@ public class SearchActivity extends AppCompatActivity {
                     public void run() {
                         Log.d(TAG, "run: 5秒后开始执行任务: " + newText);
                         showSearchFragment(newText);
+
+                        //当newText为空，HistoryFrament显示时,线程中最后一个搜索可能没有执行完成
+                        if (TextUtils.isEmpty(newText)) {
+                            Log.d(TAG, "onQueryTextChange: 显示历史界面");
+                            showHistoryFragment();
+                        }
                     }
                 });
             }
@@ -177,4 +174,12 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    //开启软键盘
+    private void openSoftKeybroad() {
+        EditText editText = searchView.getEditText();
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    }
 }

@@ -1,8 +1,9 @@
-package com.example.dhgatetest2.util;
+package com.example.dhgatetest2.search;
 
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.example.dhgatetest2.util.SPUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @EMAIL: 1021690791@qq.com
  * @PHONE: 18045142956
  * @DATE: 2017/3/21 22:51
- * @DESC: 获取历史搜索历史
+ * @DESC: 获取搜索历史
  * @VERSION: V1.0
  */
 public class HistoryProvider {
@@ -55,7 +56,10 @@ public class HistoryProvider {
         return historyProvider;
     }
 
-
+    /**
+     * 初始化默认缓存历史记录
+     * @param defaultCacheSize
+     */
     public void initDefaultCacheSize(int defaultCacheSize) {
         this.defaultCacheSize = defaultCacheSize;
     }

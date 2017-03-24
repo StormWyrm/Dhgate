@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">DhgateTest2</string>
+
+    <!--search模块-->
+    <string name="search_menu_text">搜索</string>
+    <string name="search_history_head_text">历史搜索:</string>
+    <string name="search_history_footer_text">清空所有历史记录</string>
+    <string name="search_history_no_history">没有任何搜索历史</string>
+    <string name="search_dialog_remove_title">确定要删除该条搜索历史?</string>
+    <string name="search_dialog_clear_title">确定清空历史搜索吗?</string>
+    <string name="search_dialog_confirm">确定</string>
+    <string name="search_dialog_cancle">取消</string>
+
 </resources>

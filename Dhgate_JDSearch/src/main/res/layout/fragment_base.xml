@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="5dp"
-    tools:context="com.example.dhgatetest2.activity.SearchActivity">
+    tools:context="com.example.dhgatetest2.search.SearchActivity">
 
     <ListView
         android:id="@+id/lv_fragment"
@@ -17,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="没有搜索历史"
+        android:text="@string/search_history_no_history"
+        android:textSize="@dimen/font_normal"
         android:visibility="gone" />
 
 </FrameLayout>

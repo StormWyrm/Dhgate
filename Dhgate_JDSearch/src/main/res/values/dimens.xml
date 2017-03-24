@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">16dp</dimen>
+
+    <!-- font sizes -->
+    <dimen name="font_larger">22sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_normal">16sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+
+    <!--search模块-->
+    <dimen name="search_item_height">45dp</dimen>
+    <dimen name="search_head_height">40dp</dimen>
+    <dimen name="search_foot_height">45dp</dimen>
+    <dimen name="serach_searchview_height">35dp</dimen>
+
+
 </resources>

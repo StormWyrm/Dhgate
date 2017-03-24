@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.dhgatetest2.R;
+import com.example.dhgatetest2.search.SearchActivity;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,9 +20,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
-        intent.putExtra(SearchActivity.SEARCH_LISTENER_CLASS,"com.example.dhgatetest2.base.MySearchListener");
+        intent.putExtra(SearchActivity.SEARCH_LISTENER_CLASS,"com.example.dhgatetest2.activity.MySearchListener");
         intent.putExtra(SearchActivity.DEFAULT_CACHE_SIZE,10);
         startActivity(intent);
-
     }
+
+
 }

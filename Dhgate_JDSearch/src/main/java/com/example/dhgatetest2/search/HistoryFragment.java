@@ -1,25 +1,26 @@
-package com.example.dhgatetest2.fragment;
+package com.example.dhgatetest2.search;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.dhgatetest2.R;
-import com.example.dhgatetest2.base.BaseFragment;
-import com.example.dhgatetest2.base.BaseHolder;
-import com.example.dhgatetest2.base.MyBaseAdapter;
+import com.example.dhgatetest2.ui.BaseFragment;
+import com.example.dhgatetest2.ui.BaseHolder;
+import com.example.dhgatetest2.ui.MyBaseAdapter;
 
 import java.util.List;
 
 
 /**
- * @AUTHER:       李青峰
- * @EMAIL:        1021690791@qq.com
- * @PHONE:        18045142956
- * @DATE:         2017/3/22 22:22
- * @DESC:         搜索历史Fragment
- * @VERSION:      V1.0
+ * @AUTHER: 李青峰
+ * @EMAIL: 1021690791@qq.com
+ * @PHONE: 18045142956
+ * @DATE: 2017/3/22 22:22
+ * @DESC: 搜索历史Fragment
+ * @VERSION: V1.0
  */
 public class HistoryFragment extends BaseFragment {
     private List<String> datas;
@@ -55,7 +56,7 @@ public class HistoryFragment extends BaseFragment {
                                 @Override
                                 public void onClick(View v) {
 //                                    ToastUtils.showToast(mActivity, "搜索：" + item);
-                                    if (searchListener!= null){
+                                    if (searchListener != null) {
                                         searchListener.click(item);
                                         historyProvider.add(item);
                                         mAdapter.addData(item);
@@ -66,7 +67,21 @@ public class HistoryFragment extends BaseFragment {
                             textView.setOnLongClickListener(new View.OnLongClickListener() {
                                 @Override
                                 public boolean onLongClick(View v) {
-                                    showDeleteDialog(item);
+
+                                    showDeleteDialog("", new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            historyProvider.delete(item);
+                                            mAdapter.deleteData(item);
+                                            if (mAdapter.getCount() == 0) {
+                                                mTextView.setVisibility(View.VISIBLE);
+                                                mListView.setVisibility(View.GONE);
+                                            } else {
+                                                mAdapter.notifyDataSetChanged();
+                                            }
+
+                                        }
+                                    });
                                     return false;
                                 }
                             });
@@ -81,32 +96,35 @@ public class HistoryFragment extends BaseFragment {
         }
     }
 
-    //删除搜索历史的对话框
-    private void showDeleteDialog(final String value) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setTitle("确定要删除该搜索历史?");
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                historyProvider.delete(value);
-                mAdapter.deleteData(value);
-                if (mAdapter.getCount() == 0) {
-                    mTextView.setVisibility(View.VISIBLE);
-                    mListView.setVisibility(View.GONE);
-                } else {
-                    mAdapter.notifyDataSetChanged();
-                }
+    //显示对话框
+    private void showDeleteDialog(final String title, final Runnable todo) {
+        final AlertDialog dialog = new AlertDialog.Builder(mActivity).create();
 
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        View view = View.inflate(mActivity, R.layout.dialog_search_delete_history, null);
+        final TextView tvTitle = (TextView) view.findViewById(R.id.tv_dialog_title);
+        final TextView tvConfirm = (TextView) view.findViewById(R.id.tv_dialog_confirm);
+        TextView tvCancle = (TextView) view.findViewById(R.id.tv_dialog_cancle);
+        if (!TextUtils.isEmpty(title)) {
+            tvTitle.setText(title);
+        }
+        tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                todo.run();
                 dialog.dismiss();
             }
         });
-        builder.show();
+
+        tvCancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setView(view);
+
+        dialog.show();
     }
 
     //在ListView中添加头尾布局
@@ -118,10 +136,15 @@ public class HistoryFragment extends BaseFragment {
         footerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                historyProvider.clear();
-                datas.clear();
-                mTextView.setVisibility(View.VISIBLE);
-                mListView.setVisibility(View.GONE);
+                showDeleteDialog(getString(R.string.search_dialog_clear_title), new Runnable() {
+                    @Override
+                    public void run() {
+                        historyProvider.clear();
+                        datas.clear();
+                        mTextView.setVisibility(View.VISIBLE);
+                        mListView.setVisibility(View.GONE);
+                    }
+                });
             }
         });
         mListView.addFooterView(footerView);

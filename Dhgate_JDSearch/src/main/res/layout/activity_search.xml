@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.example.dhgatetest2.activity.SearchActivity">
+    tools:context="com.example.dhgatetest2.search.SearchActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,12 +18,12 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:onClick="back"
-            android:src="@drawable/back" />
+            android:src="@drawable/ic_search_menu_back" />
 
-        <com.example.dhgatetest2.util.MySearchView
+        <com.example.dhgatetest2.search.MySearchView
             android:id="@+id/searchView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/serach_searchview_height"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
@@ -35,7 +34,8 @@
             android:layout_height="wrap_content"
             android:onClick="search"
             android:textColor="@android:color/black"
-            android:text="搜索" />
+            android:textSize="@dimen/font_normal"
+            android:text="@string/search_menu_text" />
 
     </LinearLayout>
 
@@ -44,6 +44,7 @@
         android:layout_height="1dp"
         android:background="@color/lighter_gray"
         />
+
     <FrameLayout
         android:id="@+id/fl"
         android:layout_width="match_parent"

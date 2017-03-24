@@ -1,4 +1,4 @@
-package com.example.dhgatetest2.util;
+package com.example.dhgatetest2.search;
 
 import android.content.Context;
 import android.text.Editable;
@@ -28,6 +28,11 @@ public class MySearchView extends FrameLayout {
     private ImageView imageView;
     private OnQueryTextListener mOnQueryChangeListener;
 
+    /**
+     * 设置文本改变监听器
+     *
+     * @param listener 监听器
+     */
     public void setOnQueryTextListener(OnQueryTextListener listener) {
         mOnQueryChangeListener = listener;
     }
@@ -48,10 +53,19 @@ public class MySearchView extends FrameLayout {
         initListener();
     }
 
+    /**
+     * 获取SearchView的文本
+     *
+     * @return
+     */
     public String getText() {
         return editText.getText().toString();
     }
 
+    /***
+     * 对SearchView设置文本
+     * @param text 要设置的文本
+     */
     public void setText(String text) {
         if (!TextUtils.isEmpty(text)) {
             editText.setText(text);
@@ -60,12 +74,22 @@ public class MySearchView extends FrameLayout {
 
     }
 
+    /**
+     * 对SearchView设置文本文件
+     *
+     * @param hint
+     */
     public void setHint(String hint) {
         if (!TextUtils.isEmpty(hint)) {
             editText.setHint(hint);
         }
     }
 
+    /**
+     * 获取对应的EditText
+     *
+     * @return
+     */
     public EditText getEditText() {
         return editText;
     }

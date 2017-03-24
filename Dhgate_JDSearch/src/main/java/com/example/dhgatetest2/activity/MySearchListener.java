@@ -1,6 +1,10 @@
-package com.example.dhgatetest2.base;
+package com.example.dhgatetest2.activity;
+
+import android.content.Intent;
 
 import com.example.dhgatetest2.MyApplication;
+import com.example.dhgatetest2.framework.SearchListener;
+import com.example.dhgatetest2.search.SearchActivity;
 import com.example.dhgatetest2.util.ToastUtils;
 
 import java.util.ArrayList;

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="呵呵哒"
-        android:textSize="16sp"
-        android:background="@drawable/selector_listview"
-        />
+        android:layout_height="@dimen/search_item_height"
+        android:background="@drawable/selector_search_list_item"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:textSize="@dimen/font_normal" />
+
 </LinearLayout>
