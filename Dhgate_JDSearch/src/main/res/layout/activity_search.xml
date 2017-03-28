@@ -20,7 +20,7 @@
             android:onClick="back"
             android:src="@drawable/ic_search_menu_back" />
 
-        <com.example.dhgatetest2.search.MySearchView
+        <com.example.dhgatetest2.search.ui.widget.MySearchView
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="@dimen/serach_searchview_height"

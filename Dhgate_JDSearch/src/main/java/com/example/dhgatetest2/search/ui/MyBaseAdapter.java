@@ -1,4 +1,4 @@
-package com.example.dhgatetest2.ui;
+package com.example.dhgatetest2.search.ui;
 
 import android.view.View;
 import android.view.ViewGroup;

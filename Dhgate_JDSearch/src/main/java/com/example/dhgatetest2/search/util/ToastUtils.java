@@ -1,9 +1,7 @@
-package com.example.dhgatetest2.util;
+package com.example.dhgatetest2.search.util;
 
 import android.content.Context;
 import android.widget.Toast;
-
-import com.example.dhgatetest2.search.ThreadUtils;
 
 /**
  * @AUTHER:       李青峰

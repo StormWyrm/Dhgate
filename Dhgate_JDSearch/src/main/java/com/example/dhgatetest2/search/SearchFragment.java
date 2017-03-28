@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.dhgatetest2.R;
-import com.example.dhgatetest2.ui.BaseFragment;
-import com.example.dhgatetest2.ui.BaseHolder;
-import com.example.dhgatetest2.ui.MyBaseAdapter;
+import com.example.dhgatetest2.framework.SearchListener;
+import com.example.dhgatetest2.search.ui.BaseFragment;
+import com.example.dhgatetest2.search.ui.BaseHolder;
+import com.example.dhgatetest2.search.ui.MyBaseAdapter;
+import com.example.dhgatetest2.search.util.ThreadUtils;
 
 import java.util.List;
 
@@ -93,7 +95,7 @@ public class SearchFragment extends BaseFragment {
                 public void onClick(View v) {
                     historyProvider.add(item);
                     if (searchListener != null) {
-                        searchListener.click(item);
+                        searchListener.click(item, SearchListener.SEARCH_FROM_HOT);
                     }
                 }
             });

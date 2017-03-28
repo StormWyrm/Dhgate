@@ -1,11 +1,8 @@
 package com.example.dhgatetest2.activity;
 
-import android.content.Intent;
-
 import com.example.dhgatetest2.MyApplication;
 import com.example.dhgatetest2.framework.SearchListener;
-import com.example.dhgatetest2.search.SearchActivity;
-import com.example.dhgatetest2.util.ToastUtils;
+import com.example.dhgatetest2.search.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +26,16 @@ public class MySearchListener implements SearchListener {
     }
 
     @Override
-    public void click(String value) {
-        ToastUtils.showToast(MyApplication.mContext,"搜索: "+value);
+    public void click(String value, int type) {
+        switch (type){
+            case SearchListener.SEARCH_FORM_HISTORY:
+                ToastUtils.showToast(MyApplication.mContext,"历史搜索: "+value);
+                break;
+            case SearchListener.SEARCH_FROM_HOT:
+                ToastUtils.showToast(MyApplication.mContext,"热词搜索: "+value);
+                break;
+        }
+
     }
 
     @Override

@@ -13,7 +13,9 @@ import android.widget.EditText;
 
 import com.example.dhgatetest2.R;
 import com.example.dhgatetest2.framework.SearchListener;
-import com.example.dhgatetest2.util.ToastUtils;
+import com.example.dhgatetest2.search.ui.widget.MySearchView;
+import com.example.dhgatetest2.search.util.ThreadUtils;
+import com.example.dhgatetest2.search.util.ToastUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -81,7 +83,7 @@ public class SearchActivity extends AppCompatActivity {
 //                Toast.makeText(SearchActivity.this, "搜索：" + query, Toast.LENGTH_SHORT).show();
                 HistoryProvider.getInstance(SearchActivity.this).add(query);
                 if (searchListener != null) {
-                    searchListener.click(query);
+                    searchListener.click(query,SearchListener.SEARCH_FROM_HOT);
                 }
                 return false;
             }
@@ -112,7 +114,7 @@ public class SearchActivity extends AppCompatActivity {
             HistoryProvider.getInstance(this).add(value);
 
             if (searchListener != null) {
-                searchListener.click(value);
+                searchListener.click(value,SearchListener.SEARCH_FROM_HOT);
             }
         } else {
             ToastUtils.showToast(this, "搜索不能为空");

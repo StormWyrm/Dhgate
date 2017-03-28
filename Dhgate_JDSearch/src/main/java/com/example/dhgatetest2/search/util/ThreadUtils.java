@@ -1,4 +1,4 @@
-package com.example.dhgatetest2.search;
+package com.example.dhgatetest2.search.util;
 
 import android.os.Handler;
 import android.os.Looper;

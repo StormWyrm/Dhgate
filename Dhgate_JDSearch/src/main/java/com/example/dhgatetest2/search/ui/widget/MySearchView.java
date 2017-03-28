@@ -1,4 +1,4 @@
-package com.example.dhgatetest2.search;
+package com.example.dhgatetest2.search.ui.widget;
 
 import android.content.Context;
 import android.text.Editable;

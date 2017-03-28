@@ -3,7 +3,7 @@ package com.example.dhgatetest2.search;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.example.dhgatetest2.util.SPUtils;
+import com.example.dhgatetest2.search.util.SPUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

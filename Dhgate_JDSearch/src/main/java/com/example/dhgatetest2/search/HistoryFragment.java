@@ -1,15 +1,15 @@
 package com.example.dhgatetest2.search;
 
-import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.dhgatetest2.R;
-import com.example.dhgatetest2.ui.BaseFragment;
-import com.example.dhgatetest2.ui.BaseHolder;
-import com.example.dhgatetest2.ui.MyBaseAdapter;
+import com.example.dhgatetest2.framework.SearchListener;
+import com.example.dhgatetest2.search.ui.BaseFragment;
+import com.example.dhgatetest2.search.ui.BaseHolder;
+import com.example.dhgatetest2.search.ui.MyBaseAdapter;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class HistoryFragment extends BaseFragment {
                                 public void onClick(View v) {
 //                                    ToastUtils.showToast(mActivity, "搜索：" + item);
                                     if (searchListener != null) {
-                                        searchListener.click(item);
+                                        searchListener.click(item, SearchListener.SEARCH_FORM_HISTORY);
                                         historyProvider.add(item);
                                         mAdapter.addData(item);
                                         mAdapter.notifyDataSetChanged();
