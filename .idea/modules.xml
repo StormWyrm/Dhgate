@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Dhgate.iml" filepath="$PROJECT_DIR$/Dhgate.iml" />
       <module fileurl="file://$PROJECT_DIR$/Dhgate_JDSearch/Dhgate_JDSearch.iml" filepath="$PROJECT_DIR$/Dhgate_JDSearch/Dhgate_JDSearch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Dhgate_Map/Dhgate_Map.iml" filepath="$PROJECT_DIR$/Dhgate_Map/Dhgate_Map.iml" />
     </modules>
   </component>
 </project>

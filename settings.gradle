@@ -1,1 +1,1 @@
-include ':Dhgate_JDSearch'
+include ':Dhgate_JDSearch', ':Dhgate_Map'
