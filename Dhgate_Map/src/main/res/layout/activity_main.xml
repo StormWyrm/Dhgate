@@ -9,7 +9,8 @@
     tools:context="cn.qingfeng.dhgate_map.MainActivity">
 
     <cn.qingfeng.dhgate_map.map.MapView
+        android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

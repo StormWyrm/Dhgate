@@ -12,5 +12,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         MapView.initialize(this);
         setContentView(R.layout.activity_main);
+        MapView mapView = (MapView) findViewById(R.id.map_view);
+        mapView.showCurLocation();
     }
 }
